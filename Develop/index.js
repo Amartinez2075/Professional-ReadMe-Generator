@@ -4,7 +4,21 @@ const fs = require('fs');
 const util = require('util');
 const generateMarkdown = require('./utils/generateMarkdown');
 // Create an array of questions for user input
-const questions = [];
+const questions = [{
+  type: 'input',
+  name: 'title',
+  message:'What is the title of your repo? (Required)',
+// Validated to make sure that a value is present 
+  validate: nameinput => {
+    if (nameinput) {
+      return true;
+    } else {
+      console.log('Please enter a description of the repository.');
+      return false;
+    }
+  }
+},
+}];
 
 // Create a function to write README file
 function writeToFile(fileName, data) {
