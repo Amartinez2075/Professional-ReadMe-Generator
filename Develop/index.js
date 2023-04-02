@@ -13,11 +13,25 @@ const questions = [{
     if (nameinput) {
       return true;
     } else {
-      console.log('Please enter a description of the repository.');
+      console.log('You must enter a title of the repository.');
       return false;
     }
   }
 },
+{
+type: 'input',
+  name: 'description',
+  message: 'What is the description of your repo? (Required)',
+  validate: nameInput => {
+    if (nameInput) {
+      return true;
+    } else {
+      console.log('You must enter a description of the repository.');
+      return false;
+    }
+  }
+  },
+
 }];
 
 // Create a function to write README file
