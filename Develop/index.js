@@ -31,6 +31,12 @@ type: 'input',
     }
   }
   },
+//confirms if there is an installation process. Similar Format to Array
+{
+  type: 'confirm',
+  name: 'confirmInstallation',
+  message:'Is there an installation process'
+},
 
 }];
 
