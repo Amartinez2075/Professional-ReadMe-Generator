@@ -26,8 +26,9 @@ function renderLicenseLink(license) {
 
 // Function to generate the license section of the README
 function renderLicenseSection(license) {
-  if (!license) {
-    return '';
+  if (!licenseOption === 'MIT License') {
+    licenseOption = 'MITLicense';
+    licenseOption = 'https://choosealicense.com/licenses/mit/';
   }
 
   return `

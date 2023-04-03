@@ -1,4 +1,4 @@
-// Include packages needed for this application
+// Includes packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
 const util = require('util');
@@ -30,12 +30,25 @@ type: 'input',
       return false;
     }
   }
-  },
+},
 //confirms if there is an installation process. Similar Format to Array
 {
   type: 'confirm',
   name: 'confirmInstallation',
-  message:'Is there an installation process'
+  message:'Is there an installation process',
+},
+{
+  type: 'input',
+  name: 'installation',
+  message: 'Please list installation instructions.',
+  //If the user selects an installation process, allows the user to input steps
+  when: ({ confirmInstallation }) => {
+    if (confirmInstallation) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 },
 
 }];
