@@ -18,6 +18,12 @@ function renderLicenseLink(license) {
     'MIT': 'https://opensource.org/licenses/MIT',
     'GNU GPL v3': 'https://www.gnu.org/licenses/gpl-3.0',
     'Apache 2.0': 'https://opensource.org/licenses/Apache-2.0',
+    'GNU AGPLv3':
+    'GNU GPLv3':
+    'GNU LGPLv3':
+    'Mozilla Public License 2.0':
+    'Boost Software License 1.0':
+    'The Unlicense':
     // Add more licenses as needed
   };
 
