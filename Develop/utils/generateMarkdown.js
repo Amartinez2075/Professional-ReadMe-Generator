@@ -30,7 +30,14 @@ function renderLicenseSection(license) {
     licenseOption = 'MITLicense';
     licenseOption = 'https://choosealicense.com/licenses/mit/';
   }
-
+  if (!licenseOption === 'GNU GPL v3') {
+    licenseOption = 'GNU GPL v3';
+    licenseOption = 'https://www.gnu.org/licenses/gpl-3.0';
+  }
+  if (!licenseOption === 'Apache 2.0') {
+    licenseOption = 'Apache 2.0';
+    licenseOption = 'https://opensource.org/licenses/Apache-2.0';
+  }
   return `
 ## License
 
