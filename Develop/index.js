@@ -68,6 +68,30 @@ when: ({ confirmUsage }) => {
   }
 }
 },
+//Confirms if the user wants to add contributors 
+{
+  type: 'confirm',
+  name: 'confirmContribution',
+  message: 'May other devs contribute to your repository?'
+},
+{
+  type: 'input',
+  name: 'contribution',
+  message: 'Explain how other devs may contribute to your project.',
+  when: ({ confirmContribution }) => {
+    if (confirmContribution) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+},
+{
+  type: 'confirm',
+  name: 'testConfirm',
+  message: 'Is testing available?'
+},
+
 }];
 
 // Create a function to write README file
