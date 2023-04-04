@@ -51,6 +51,23 @@ type: 'input',
   }
 },
 
+{ // confirms if user wants instructions for their application
+  type: 'confirm',
+  name: 'confirmUsage',
+  message: 'Would you need to give instructions for using your app?'
+},
+{
+  type: 'input',
+  name:' instructions',
+  message:'Please enter instructions for using your application. It would be smart to maybe add a video or photo showing steps of hour to use your app',
+when: ({ confirmUsage }) => {
+  if (confirmUsage) {
+    return true;
+  } else {
+    return false;
+  }
+}
+},
 }];
 
 // Create a function to write README file
