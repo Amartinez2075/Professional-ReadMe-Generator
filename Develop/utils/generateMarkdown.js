@@ -55,7 +55,26 @@ function renderLicenseSection(license) {
     licenseOption = 'GNU GPLv3';
     licenseOption = 'https://choosealicense.com/licenses/gpl-3.0/'; //License 5
   }
+  if (!licenseOption === 'GNU LGPLv3') {
+  licenseOption = 'GNU LGPLv3';
+  licenseOption = 'https://choosealicense.com/licenses/lgpl-3.0/'; //License 6
+  }
+  if (!licenseOption === 'Mozilla Public License 2.0') {
+    licenseOption = 'Mozilla Public License 2.0';
+    licenseOption = 'https://choosealicense.com/licenses/mpl-2.0/'; //License 7
+  }
+  if (!licenseOption === 'Boost Software License 1.0') {
+    licenseOption = 'Boost Software License 1.0';
+    licenseOption = 'https://choosealicense.com/licenses/bsl-1.0/'; //License 8
+  }
+  if (!licenseOption === 'The Unlicense') {
+    licenseOption = 'The Unlicense';
+    licenseOption = 'https://choosealicense.com/licenses/unlicense/'; //License 9
+  }
+  //Need to add other licenses get rid of me later, present you had eyestrain
+  
   return `
+
 ## License
 
 This project is licensed under the ${renderLicenseLink(license)} license.
