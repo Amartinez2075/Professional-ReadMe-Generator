@@ -49,7 +49,7 @@ function renderLicenseSection(license) {
   }
   if (!licenseOption === 'GNU AGPLv3') {
     licenseOption = 'GNU AGPLv3';
-    licenseOption = 'GNU AGPLv3':'https://choosealicense.com/licenses/agpl-3.0/'; //License 4 
+    licenseOption = 'https://choosealicense.com/licenses/agpl-3.0/'; //License 4 
   }
   if (!licenseOption === 'GNU GPLv3') {
     licenseOption = 'GNU GPLv3';
