@@ -1,113 +1,123 @@
-// Includescd packages needed for this application
+// Require the necessary packages
 const inquirer = require('inquirer');
 const fs = require('fs');
 const util = require('util');
 const generateMarkdown = require('./utils/generateMarkdown');
+
 // Create an array of questions for user input
-const questions = [{
-  type: 'input',
-  name: 'title',
-  message:'What is the title of your repo? (Required)',
-// Validated to make sure that a value is present 
-  validate: nameinput => {
-    if (nameinput) {
-      return true;
-    } else {
-      console.log('You must enter a title of the repository.');
-      return false;
+const questions = [
+  {
+    type: 'input',
+    name: 'title',
+    message: 'What is the title of your repo? (Required)',
+    validate: (input) => {
+      return input ? true : 'You must enter a title for the repository.';
+    }
+  },
+  {
+    type: 'input',
+    name: 'description',
+    message: 'What is the description of your repo? (Required)',
+    validate: (input) => {
+      return input ? true : 'You must enter a description for the repository.';
+    }
+  },
+  {
+    type: 'confirm',
+    name: 'hasInstallation',
+    message: 'Does your repo require installation?',
+  },
+  {
+    type: 'input',
+    name: 'installation',
+    message: 'Please provide instructions for installation:',
+    when: ({ hasInstallation }) => hasInstallation,
+  },
+  {
+    type: 'confirm',
+    name: 'hasUsage',
+    message: 'Does your repo require instructions for usage?',
+  },
+  {
+    type: 'input',
+    name: 'usage',
+    message: 'Please provide instructions for usage:',
+    when: ({ hasUsage }) => hasUsage,
+  },
+  {
+    type: 'confirm',
+    name: 'hasContributions',
+    message: 'Is your repo open for contributions?',
+  },
+  {
+    type: 'input',
+    name: 'contributing',
+    message: 'Please provide instructions for contributing:',
+    when: ({ hasContributions }) => hasContributions,
+  },
+  {
+    type: 'confirm',
+    name: 'hasTests',
+    message: 'Does your repo have tests?',
+  },
+  {
+    type: 'input',
+    name: 'tests',
+    message: 'Please provide instructions for running tests:',
+    when: ({ hasTests }) => hasTests,
+  },
+  {
+    type: 'list',
+    name: 'license',
+    message: 'Which license does your repo have?',
+    choices: [
+      'GNU AGPLv3',
+      'GNU GPLv3',
+      'GNU LGPLv3',
+      'Mozilla Public License 2.0',
+      'Apache License 2.0',
+      'MIT License',
+      'Boost Software License 1.0',
+      'The Unlicense'
+    ]
+  },
+  {
+    type: 'input',
+    name: 'username',
+    message: 'What is your GitHub username? (Required)',
+    validate: (input) => {
+      return input ? true : 'You must enter a GitHub username.';
+    }
+  },
+  {
+    type: 'input',
+    name: 'email',
+    message: 'What is your email address? (Required)',
+    validate: (input) => {
+      return input ? true : 'You must enter an email address.';
+    }
+  },
+  {
+    type: 'input',
+    name: 'questions',
+    message: 'Please provide instructions for contacting you:',
+    validate: (input) => {
+      return input ? true : 'You must provide instructions for contacting you.';
     }
   }
-},
-{
-type: 'input',
-  name: 'description',
-  message: 'What is the description of your repo? (Required)',
-  validate: nameInput => {
-    if (nameInput) {
-      return true;
-    } else {
-      console.log('You must enter a description of the repository.');
-      return false;
+];
+
+// Create a function to write the README file
+const writeToFile = util.promisify(fs.writeFile);
+
+// Create a function to initialize the app
+async function init() {
+  try {
+    // Prompt the user for input using the inquirer package and the questions array
+  } catch (error) {
+    console.error(error);
     }
-  }
-},
-//confirms if there is an installation process. Similar Format to Array
-{
-  type: 'confirm',
-  name: 'confirmInstallation',
-  message:'Is there an installation process',
-},
-{
-  type: 'input',
-  name: 'installation',
-  message: 'Please list installation instructions.',
-  //If the user selects an installation process, allows the user to input steps
-  when: ({ confirmInstallation }) => {
-    if (confirmInstallation) {
-      return true;
-    } else {
-      return false;
     }
-  }
-},
-
-{ // confirms if user wants instructions for their application
-  type: 'confirm',
-  name: 'confirmUsage',
-  message: 'Would you need to give instructions for using your app?'
-},
-{
-  type: 'input',
-  name:' instructions',
-  message:'Please enter instructions for using your application. It would be smart to maybe add a video or photo showing steps of hour to use your app',
-when: ({ confirmUsage }) => {
-  if (confirmUsage) {
-    return true;
-  } else {
-    return false;
-  }
-}
-},
-//Confirms if the user wants to add contributors 
-{
-  type: 'confirm',
-  name: 'confirmContribution',
-  message: 'May other devs contribute to your repository?'
-},
-{
-  type: 'input',
-  name: 'contribution',
-  message: 'Explain how other devs may contribute to your project.',
-  when: ({ confirmContribution }) => {
-    if (confirmContribution) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-},
-{
-  type: 'confirm',
-  name: 'testConfirm',
-  message: 'Is testing available?'
-},
-
-}];
-
-// Create a function to write README file
-function writeToFile(fileName, data) {
-  fs.writeFile(fileName, data, (err) =>
-    err ? console.error(err) : console.log('README generated successfully!')
-  );
-}
-
-// Create a function to initialize app
-function init() {
-  inquirer.prompt(questions).then((data) => {
-    const markdown = generateMarkdown(data);
-    writeToFile('README.md', markdown);
-  });
-}
-
-// Function call to initialize app
-init();
+    
+    // Call the init function to start the app
+    init();
