@@ -1,123 +1,195 @@
-// Require the necessary packages
-const inquirer = require('inquirer');
+// Following packages needed for this Generator
 const fs = require('fs');
+const inquirer = require('inquirer');
+const generateMarkdown = require('Develop\utils\generateMarkdown.js');
 const util = require('util');
-const generateMarkdown = require('./utils/generateMarkdown');
 
-// Create an array of questions for user input
-const questions = [
-  {
-    type: 'input',
-    name: 'title',
-    message: 'What is the title of your repo? (Required)',
-    validate: (input) => {
-      return input ? true : 'You must enter a title for the repository.';
-    }
-  },
-  {
-    type: 'input',
-    name: 'description',
-    message: 'What is the description of your repo? (Required)',
-    validate: (input) => {
-      return input ? true : 'You must enter a description for the repository.';
-    }
-  },
-  {
-    type: 'confirm',
-    name: 'hasInstallation',
-    message: 'Does your repo require installation?',
-  },
-  {
-    type: 'input',
-    name: 'installation',
-    message: 'Please provide instructions for installation:',
-    when: ({ hasInstallation }) => hasInstallation,
-  },
-  {
-    type: 'confirm',
-    name: 'hasUsage',
-    message: 'Does your repo require instructions for usage?',
-  },
-  {
-    type: 'input',
-    name: 'usage',
-    message: 'Please provide instructions for usage:',
-    when: ({ hasUsage }) => hasUsage,
-  },
-  {
-    type: 'confirm',
-    name: 'hasContributions',
-    message: 'Is your repo open for contributions?',
-  },
-  {
-    type: 'input',
-    name: 'contributing',
-    message: 'Please provide instructions for contributing:',
-    when: ({ hasContributions }) => hasContributions,
-  },
-  {
-    type: 'confirm',
-    name: 'hasTests',
-    message: 'Does your repo have tests?',
-  },
-  {
-    type: 'input',
-    name: 'tests',
-    message: 'Please provide instructions for running tests:',
-    when: ({ hasTests }) => hasTests,
-  },
-  {
-    type: 'list',
-    name: 'license',
-    message: 'Which license does your repo have?',
-    choices: [
-      'GNU AGPLv3',
-      'GNU GPLv3',
-      'GNU LGPLv3',
-      'Mozilla Public License 2.0',
-      'Apache License 2.0',
-      'MIT License',
-      'Boost Software License 1.0',
-      'The Unlicense'
-    ]
-  },
-  {
-    type: 'input',
-    name: 'username',
-    message: 'What is your GitHub username? (Required)',
-    validate: (input) => {
-      return input ? true : 'You must enter a GitHub username.';
-    }
-  },
-  {
-    type: 'input',
-    name: 'email',
-    message: 'What is your email address? (Required)',
-    validate: (input) => {
-      return input ? true : 'You must enter an email address.';
-    }
-  },
-  {
-    type: 'input',
-    name: 'questions',
-    message: 'Please provide instructions for contacting you:',
-    validate: (input) => {
-      return input ? true : 'You must provide instructions for contacting you.';
+// Start of Question Arrays
+// Gives options when generating the ReadME
+const questions = [{
+  type: 'input',
+  name: 'title',
+  message: 'What is the title of your repository? (Required)',
+  //validate to make sure there is a value there
+  validate: nameInput => {
+    if (nameInput) {
+      return true;
+    } else {
+      console.log('Please enter your repository title.');
+      return false;
     }
   }
-];
+},
+{
+  type: 'input',
+  name: 'description',
+  message: 'What is the description of your repository? (Required)',
+  validate: nameInput => {
+    if (nameInput) {
+      return true;
+    } else {
+      console.log('Please enter a description of the repository.');
+      return false;
+    }
+  }
+  },
+//Confirms or not if there is an installation process
+{
+  type: 'confirm',
+  name: 'confirmInstallation',
+  message: 'Is there an installation process?'
+  },
+{
+  type: 'input',
+  name: 'installation',
+  message: 'Please list installation instructions.',
+  // the "when" is if the user wants to put in installation instructions they can pick yes or no
+  when: ({ confirmInstallation }) => {
+    if (confirmInstallation) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+},
 
-// Create a function to write the README file
-const writeToFile = util.promisify(fs.writeFile);
+{ //Confirms if they want to give instructions for using the generator
+  type: 'confirm',
+  name: 'confirmUsage',
+  message: 'Would you like to give instructions for using your application?'
+},
+{ //if confirmed then asks you to list instructions for the application
+  type: 'input',
+  name: 'instructions',
+  message: 'Please list instructions for using your application.',
+  when: ({ confirmUsage }) => {
+    if (confirmUsage) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+},
 
-// Create a function to initialize the app
+{
+  type: 'confirm',
+  name: 'confirmContribution',
+  message: 'May other developers contribute to your repository?'
+},
+{
+  type: 'input',
+  name: 'contribution',
+  message: 'Please explain how other developers may contribute to your project.',
+  when: ({ confirmContribution }) => {
+    if (confirmContribution) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+},
+{
+  type: 'confirm',
+  name: 'testConfirm',
+  message: 'Is testing available?'
+},
+{
+  type: 'input',
+  name: 'testing',
+  message: 'Please explain how users may test your application.',
+  when: ({ testConfirm }) => {
+    if (testConfirm) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+},
+{ //checkbox that allows license choice from the following licenses
+  type: 'checkbox',
+  name: 'license',
+  message: 'Please choose a license.',
+  choices: ['GNU AGPLv3', 'GNU GPLv3',
+    'GNU LGPLv3', 'Mozilla Public License 2.0',
+    'Apache License 2.0', 'MIT License', 'Boost Software License 1.0',
+    'The Unlicense'],
+  validate: nameInput => {
+    if (nameInput) {
+      return true;
+    } else {
+      console.log('Please select a license.');
+      return false;
+    }
+  }
+},
+{
+  type: 'input',
+  name: 'username',
+  message: 'What is your GitHub username? (Required)',
+  validate: nameInput => {
+    if (nameInput) {
+      return true;
+    } else {
+      console.log('Please enter your GitHub username.');
+      return false;
+    }
+  }
+},
+{
+  type: 'input',
+  name: 'email',
+  message: 'What is your email address? (Required)',
+  validate: nameInput => {
+    if (nameInput) {
+      return true;
+    } else {
+      console.log('Please enter your email.');
+      return false;
+    }
+  }
+},
+{
+  type: 'input',
+  name: 'questions',
+  message: 'Please list instructions for those who wish to contact you.',
+  validate: (nameInput) => {
+    if (nameInput) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}]; //End of all the questions array for read.me generator
+
+
+// this is an await in the async function
+function writeToFile(fileName, data) {
+  fs.writeFile(fileName, data, error => {
+    if (error) {
+      return console.log('Sorry there was an error : ' + error);
+    }
+  })
+}
+
+
+const createReadMe = util.promisify(writeToFile);
+
+// Made a async function with a catch for errors
 async function init() {
   try {
-    // Prompt the user for input using the inquirer package and the questions array
-  } catch (error) {
-    console.error(error);
-    }
-    }
+    const userAnswers = await inquirer.prompt(questions);
+    console.log('Thank you! The current data is being processed into your README.md: ', userAnswers);
+    // get markdown template from generateMarkdown.js passing the answers as parameter
+    const myMarkdown = generateMarkdown(userAnswers);
+    console.log(myMarkdown);
+    //write the readme file after the markdown is made
+    await createReadMe('README1.md', myMarkdown);
     
-    // Call the init function to start the app
-    init();
+  } catch (error) {
+    console.log('Sorry there was an error.' + error);
+  }
+};
+
+
+// Function call to initialize app
+init();
