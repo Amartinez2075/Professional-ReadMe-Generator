@@ -1,7 +1,7 @@
 // Following packages needed for this Generator
 const fs = require('fs');
 const inquirer = require('inquirer');
-const generateMarkdown = require('Develop\utils\generateMarkdown.js');
+const generateMarkdown = require('./Develop/utils/generateMarkdown.js');
 const util = require('util');
 
 // Start of Question Arrays
