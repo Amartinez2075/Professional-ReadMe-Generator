@@ -98,3 +98,4 @@ ${data.tests}
 ${data.questions}
 `;
 }
+module.exports = generateMarkdown;
